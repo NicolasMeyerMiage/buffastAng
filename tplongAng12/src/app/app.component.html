@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>
+    <nav><a routerLink="/home">{{title}}</a></nav>
+  </h1>
+  <button mat-stroked-button color="primary" *ngIf="!isLogin()" (click)="onLogin()">Connexion</button>
+  <button mat-stroked-button color="primary" *ngIf="isLogin()" (click)="onLogOut()">Se Déconnecter</button>
+</div>
+
+<router-outlet></router-outlet>

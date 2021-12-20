@@ -1,0 +1,21 @@
+{
+  "name": "assignments-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "doc": "node doc/documentation.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Sam Orgill",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mongodb": "^3.7.3",
+    "mongoose": "^5.13.13",
+    "mongoose-aggregate-paginate-v2": "^1.0.5",
+    "multer": "^1.4.2"
+  }
+}

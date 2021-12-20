@@ -1,0 +1,31 @@
+<!--<button mat-flat-button color="accent" (click)="backToListBtn()">Retour</button>-->
+<div class="ajouterBtn">
+  <a routerLink="/home">
+    <button class="ajouterBtn" mat-flat-button color="accent">Retour</button>
+  </a>
+</div>
+
+<form class="form" ngForm #assignmentForm>
+  <mat-form-field>
+    <input matInput
+           [(ngModel)]="nomDevoir"
+           placeholder="Nom du devoir"
+           name="nom">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput
+           [matDatepicker]="picker"
+           [(ngModel)]="dateDeRendu"
+           placeholder="Date de rendu"
+           name="dateDeRendu">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="onSubmit(); assignmentForm.reset()">
+    Ajouter un devoir
+  </button>
+</form>
