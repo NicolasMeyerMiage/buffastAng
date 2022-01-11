@@ -2,6 +2,7 @@ let baseUrl = 'http://localhost:8010/api/';
 let apiAssignmentsUrl = baseUrl + 'assignments';
 let apiUsersUrl = baseUrl + 'users';
 let apiLoginUrl = baseUrl + 'login';
+let apiPersonUrl = baseUrl + 'person';
 
 console.log('----- DOCUMENTATION API - TP ASSIGNMENT -----');
 console.log('');

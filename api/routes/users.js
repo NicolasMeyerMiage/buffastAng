@@ -1,5 +1,11 @@
 const bcrypt = require("bcryptjs");
 let User = require('../model/user');
+let express = require('express');
+let bodyParser = require('body-parser');
+let router = express.Router();
+
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 // Récupérer tous les users (GET)
 function getUsers(req, res) {
