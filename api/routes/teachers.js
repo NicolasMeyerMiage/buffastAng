@@ -35,12 +35,12 @@ function getTeacherWithParam(req, res){
             res.status(200).json(teacher);
         })
     } else if(teacherNom) {
-        Teacher.find({promo: teacherNom}, (err, teacher) =>{
+        Teacher.find({nom: teacherNom}, (err, teacher) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(teacher);
         })
     } else if(teacherUe) {
-        Teacher.find({promo: teacherUe}, (err, teacher) =>{
+        Teacher.find({ue: teacherUe}, (err, teacher) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(teacher);
         })

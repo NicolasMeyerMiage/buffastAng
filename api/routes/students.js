@@ -34,7 +34,7 @@ function getStudentWithParam(req, res){
             res.status(200).json(user);
         })
     } else if(studentClasse) {
-        Student.find({promo: studentClasse}, (err, studentClasse) =>{
+        Student.find({classe: studentClasse}, (err, studentClasse) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(studentClasse);
         })

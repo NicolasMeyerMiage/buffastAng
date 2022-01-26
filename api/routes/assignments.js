@@ -58,15 +58,12 @@ function updateAssignment(req, res) {
         } else {
           res.status(201).json({message: 'updated'})
         }
-
-      // console.log('updated ', assignment)
     });
 
 }
 
 // suppression d'un assignment (DELETE)
 function deleteAssignment(req, res) {
-
     Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
         if (err) {
             res.status(500).send(err);

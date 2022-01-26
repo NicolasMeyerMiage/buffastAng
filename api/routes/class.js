@@ -35,12 +35,12 @@ function getClasseWithParam(req, res){
             res.status(200).json(classe);
         })
     } else if(classNom) {
-        Class.find({promo: classNom}, (err, classe) =>{
+        Class.find({nom: classNom}, (err, classe) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(classe);
         })
     } else if(classYears) {
-        Class.find({promo: classYears}, (err, classe) =>{
+        Class.find({years: classYears}, (err, classe) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(classe);
         })

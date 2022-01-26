@@ -73,21 +73,4 @@ function deleteUser(req, res) {
     })
 }
 
-// méthode d'authentification
-function login(req, res) {
-    User.findOne({login: req.body.login}, (err, user) =>{
-        if(err){res.status(500).send(err)}
-        if(user === null) {
-            res.status(404).json({message: 'user not found in database'});
-        } else {
-            let compare = req.body.password == null ? res.status(400).json({message: 'wrong password'}) : bcrypt.compareSync(req.body.password, user.password);
-            if(compare) {
-                res.status(200).json(user);
-            } else {
-                res.status(400).json({message: 'wrong password'});
-            }
-        }
-    });
-}
-
-module.exports = { getUsers, getUser, postUser, updateUser, deleteUser, login };
+module.exports = { getUsers, getUser, postUser, updateUser, deleteUser };
