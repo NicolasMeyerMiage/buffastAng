@@ -1,4 +1,4 @@
-<main class="container">
+<main class="main">
   <!--<button mat-flat-button color="accent" (click)="onAddAssignmentBtnClick()">Ajouter Assignment</button>-->
   <div class="ajouterBtn">
     <a routerLink="/add">
@@ -6,71 +6,74 @@
     </a>
   </div>
 
-  <mat-select>
-    <mat-option *ngFor="let assignment of assignmentsSelect" [value]="assignment">
-      {{assignment}}
-    </mat-option>
-  </mat-select>
+  <mat-form-field appearance="fill">
+    <mat-label>UE</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let assignment of assignmentsSelect" [value]="assignment" (click)="assignementClique(assignment)">{{assignment}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <div class="container">
-    <div class="not-done-container column-container">
-      <div class="list"
-           cdkDropList
-           #notDoneList="cdkDropList"
-           [cdkDropListData]="assignmentsNotDone"
-           [cdkDropListConnectedTo]="[doneList]"
-           (cdkDropListDropped)="onDrop($event)">
-        <h2>Devoirs non rendus</h2>
-        <mat-card *ngFor="let assignment of assignmentsNotDone" cdkDrag>
-          <!--<nav routerLink="/assignment/{{assignment.id}}">-->
-          <mat-card-title-group>
-            <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
-            <mat-card-subtitle>imgTest</mat-card-subtitle>
-            <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
-          </mat-card-title-group>
-          <mat-card-content>
-            <mat-list-item (click)="assignementClique(assignment)">
-              <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-                Devoir intitulé {{assignment.nom}} a été rendu.
-              </p>
-              <ng-template #nonsoumis>
-                Le devoir {{assignment.nom}} n'a pas été rendu.
-              </ng-template>
-              <mat-divider></mat-divider>
-            </mat-list-item>
-          </mat-card-content>
-          <!--</nav>-->
-        </mat-card>
+    <div class="list-container">
+      <div class="not-done-container column-container">
+        <div class="list"
+             cdkDropList
+             #notDoneList="cdkDropList"
+             [cdkDropListData]="assignmentsNotDone"
+             [cdkDropListConnectedTo]="[doneList]"
+             (cdkDropListDropped)="onDrop($event)">
+          <h2>Devoirs non rendus</h2>
+          <mat-card *ngFor="let assignment of assignmentsNotDone" cdkDrag>
+            <!--<nav routerLink="/assignment/{{assignment.id}}">-->
+            <mat-card-title-group>
+              <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+              <mat-card-subtitle>{{assignment.ue}}</mat-card-subtitle>
+              <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
+            </mat-card-title-group>
+            <mat-card-content>
+              <mat-list-item (click)="editAssignment(assignment)">
+                <p appRendu *ngIf="assignment.rendu; else nonsoumis">
+                  Devoir intitulé {{assignment.nom}} a été rendu.
+                </p>
+                <ng-template #nonsoumis>
+                  Le devoir {{assignment.nom}} n'a pas été rendu.
+                </ng-template>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-card-content>
+            <!--</nav>-->
+          </mat-card>
+        </div>
       </div>
-    </div>
-    <div class="done-container column-container">
-      <div class="list"
-           cdkDropList
-           #doneList="cdkDropList"
-           [cdkDropListData]="assignmentsDone"
-           [cdkDropListConnectedTo]="[notDoneList]"
-           (cdkDropListDropped)="onDrop($event)">
-        <h2>Devoirs rendus</h2>
-        <mat-card *ngFor="let assignment of assignmentsDone" cdkDrag>
-          <!--<nav routerLink="/assignment/{{assignment.id}}">-->
-          <mat-card-title-group>
-            <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
-            <mat-card-subtitle>imgTest</mat-card-subtitle>
-            <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
-          </mat-card-title-group>
-          <mat-card-content>
-            <mat-list-item (click)="assignementClique(assignment)">
-              <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-                Devoir intitulé {{assignment.nom}} a été rendu.
-              </p>
-              <ng-template #nonsoumis>
-                Le devoir {{assignment.nom}} n'a pas été rendu.
-              </ng-template>
-              <mat-divider></mat-divider>
-            </mat-list-item>
-          </mat-card-content>
-          <!--</nav>-->
-        </mat-card>
+      <div class="done-container column-container">
+        <div class="list"
+             cdkDropList
+             #doneList="cdkDropList"
+             [cdkDropListData]="assignmentsDone"
+             [cdkDropListConnectedTo]="[notDoneList]"
+             (cdkDropListDropped)="onDrop($event)">
+          <h2>Devoirs rendus</h2>
+          <mat-card *ngFor="let assignment of assignmentsDone" cdkDrag>
+            <!--<nav routerLink="/assignment/{{assignment.id}}">-->
+            <mat-card-title-group>
+              <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+              <mat-card-subtitle>{{assignment.ue}}</mat-card-subtitle>
+              <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
+            </mat-card-title-group>
+            <mat-card-content>
+              <mat-list-item (click)="assignementClique(assignment)">
+                <p appRendu *ngIf="assignment.rendu; else nonsoumis">
+                  Devoir intitulé {{assignment.nom}} a été rendu.
+                </p>
+                <ng-template #nonsoumis>
+                  Le devoir {{assignment.nom}} n'a pas été rendu.
+                </ng-template>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-card-content>
+            <!--</nav>-->
+          </mat-card>
+        </div>
       </div>
     </div>
   </div>

@@ -11,7 +11,7 @@ export class AddAssignmentComponent implements OnInit {
 
   //@Output() nouvelAssignemnt: EventEmitter<AssignementsModel> = new EventEmitter<AssignementsModel>();
   nomDevoir: string = '';
-  dateDeRendu!: Date;
+  dateDeRendu!: string;
 
   constructor(private assignmentService: AssignmentService) { }
 

@@ -3,7 +3,8 @@ export class AssignmentModel {
   id!: number;
   nom!: string;
   ue!: string;
-  dateDeRendu?: Date;
+  pic?: string;
+  dateDeRendu?: string;
   rendu?: boolean;
   note?: number;
   remarque?: string;

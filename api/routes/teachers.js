@@ -17,8 +17,8 @@ function getTeachers(req, res) {
 
 // Récupérer une personne par son id (GET)
 function getTeacherById(req, res){
-    let teacherId = req.params.id;
-    Teacher.findOne({id: teacherId}, (err, teacher) =>{
+    let teacherId = req.params._id;
+    Teacher.findById({_id: teacherId}, (err, teacher) =>{
         if(err){res.status(500).send(err)}
         res.status(200).json(teacher);
     })
@@ -26,21 +26,9 @@ function getTeacherById(req, res){
 
 // Récupérer des personnes selon un paramètre (GET)
 function getTeacherWithParam(req, res){
-    let teacherId = req.params.id;
-    let teacherNom = req.params.nom;
-    let teacherUe = req.params.ue;
-    if(teacherId) {
-        Teacher.find({id: teacherId}, (err, teacher) =>{
-            if(err){res.status(500).send(err)}
-            res.status(200).json(teacher);
-        })
-    } else if(teacherNom) {
-        Teacher.find({nom: teacherNom}, (err, teacher) =>{
-            if(err){res.status(500).send(err)}
-            res.status(200).json(teacher);
-        })
-    } else if(teacherUe) {
-        Teacher.find({ue: teacherUe}, (err, teacher) =>{
+    let teacherUe = req.params.ue === undefined ? null : req.params.ue;
+    if(teacherUe) {
+        Teacher.findOne({ue: teacherUe}, (err, teacher) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(teacher);
         })

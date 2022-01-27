@@ -12,7 +12,7 @@ export class EditAssignmentComponent implements OnInit {
 
   assignment!: AssignmentModel;
   nomDevoir?: string;
-  dateDeRendu?: Date;
+  dateDeRendu?: string;
   currentName?: string;
 
   constructor(private assignmentsService: AssignmentService,
@@ -21,10 +21,6 @@ export class EditAssignmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssignment();
-    /*console.log("Query Params :");
-    console.log(this.route.snapshot.queryParams);
-    console.log("Fragment :");
-    console.log(this.route.snapshot.fragment);*/
     this.route.queryParams.subscribe(params => {
       console.log("Query Params :");
       console.log(params);

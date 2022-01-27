@@ -1,12 +1,13 @@
 let Assignment = require('../model/assignment');
+const Teacher = require("../model/teacher");
 
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res) {
     let aggregateQuery = Assignment.aggregate();
     let done = req.query.rendu === 'false' ? false : req.query.rendu === 'true' ? true : undefined;
     let matching = done !== undefined ?
-        (req.query.ue ? aggregateQuery.match({ rendu: done, ue: req.query.ue }) : aggregateQuery.match({ rendu: done }))
-        : req.query.ue ? aggregateQuery.match({ ue: req.query.ue }) : aggregateQuery;
+        (req.query.ue ? aggregateQuery.match({rendu: done, ue: req.query.ue}) : aggregateQuery.match({rendu: done}))
+        : req.query.ue ? aggregateQuery.match({ue: req.query.ue}) : aggregateQuery;
     Assignment.aggregatePaginate(matching,
         {
             page: parseInt(req.query.page) || 1,
@@ -16,23 +17,30 @@ function getAssignments(req, res) {
             if (err) {
                 res.send(err);
             }
+            /*assignments.docs.forEach(assignment => {
+                Teacher.findOne({ue: assignment.ue}, (err, teacher) => {
+                    assignment.pic = teacher.pic
+                });
+            });*/
             res.send(assignments);
         }
     );
 }
 
 // Récupérer un assignment par son id (GET)
-function getAssignment(req, res){
+function getAssignment(req, res) {
     let assignmentId = req.params.id;
 
-    Assignment.findOne({id: assignmentId}, (err, assignment) =>{
-        if(err){res.status(500).send(err)}
+    Assignment.findOne({id: assignmentId}, (err, assignment) => {
+        if (err) {
+            res.status(500).send(err)
+        }
         res.status(200).json(assignment);
     })
 }
 
 // Ajout d'un assignment (POST)
-function postAssignment(req, res){
+function postAssignment(req, res) {
     let assignment = new Assignment();
     assignment.id = req.body.id;
     assignment.nom = req.body.nom;
@@ -42,11 +50,11 @@ function postAssignment(req, res){
     console.log("POST assignment reçu :");
     console.log(assignment)
 
-    assignment.save( (err) => {
-        if(err){
+    assignment.save((err) => {
+        if (err) {
             res.status(500).send('cant post assignment ', err);
         }
-        res.status(201).json({ message: `${assignment.nom} saved!`})
+        res.status(201).json({message: `${assignment.nom} saved!`})
     })
 }
 
@@ -59,7 +67,7 @@ function updateAssignment(req, res) {
             console.log(err);
             res.status(500).send(err)
         } else {
-          res.status(201).json({message: 'updated'})
+            res.status(201).json({message: 'updated'})
         }
     });
 }
@@ -74,4 +82,4 @@ function deleteAssignment(req, res) {
     })
 }
 
-module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };
+module.exports = {getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment};

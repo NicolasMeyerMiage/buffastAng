@@ -116,8 +116,8 @@ app.route(prefix + '/student').get(student.getStudentWithParam);
  * Requierment : TeacherSchema
  */
 app.route(prefix + '/teachers').get(teacher.getTeachers);
-app.route(prefix + '/teacher/:id').get(teacher.getTeacherById);
-app.route(prefix + '/teacher').get(teacher.getTeacherWithParam);
+app.route(prefix + '/teachers/:id').get(teacher.getTeacherById);
+app.route(prefix + '/teachers/ue/:ue').get(teacher.getTeacherWithParam);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");

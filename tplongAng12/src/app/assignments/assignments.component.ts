@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AssignmentService} from "../shared/assignment.service";
 import {AssignmentModel} from "../models/assignment.model";
+import {TeacherService} from "../shared/teacher.service";
 
 @Component({
   selector: 'app-assignments',
@@ -14,9 +15,9 @@ export class AssignmentsComponent implements OnInit {
   dateDeRendu!: Date;
   assignmentsDone?: any;
   assignmentsNotDone?: any;
-  assignementSelected!: AssignmentModel;
-  assignmentsSelect: string[] = 'Web - BackEnd - Base de donées - Gestion de projet / SCRUM - Charlatanisme - Manipulation'.split(' - ');
-  selectedAssignment: string = 'Web';
+  assignmentsSelect: string[] = 'Tous - Web - BackEnd - Base de données - Gestion de projet - Charlatanisme - Manipulation'.split(' - ');
+  assignmentSelected: string = '';
+  selectedAssignment?: string;
   // Pagination management
   assignment: any;
   page: number = 1;
@@ -28,31 +29,31 @@ export class AssignmentsComponent implements OnInit {
   hasNextPage?: boolean;
   nextPage?: number;
 
-  constructor(private assignmentService: AssignmentService) {
+  constructor(private assignmentService: AssignmentService,
+              private teacherService: TeacherService) {
   }
 
   ngOnInit(): void {
-    this.getAssignments(true);
-    this.getAssignments(false);
+    this.getAssignments(true, '');
+    this.getAssignments(false, '');
     setTimeout(() => {
       this.ajoutActive = true;
     }, 2000);
   }
 
-  assignementClique(assignment: AssignmentModel) {
-    this.assignementSelected = assignment;
+  assignementClique(assignment: string) {
+    assignment = assignment === 'Tous' ? '' : assignment;
+    this.assignmentSelected = assignment === 'Tous' ? '' : assignment;
+    this.getAssignments(true, assignment);
+    this.getAssignments(false, assignment);
   }
-
-  /*onAddAssignmentBtnClick() {
-    this.formVisible = true;
-  }*/
 
   onListVisible() {
     this.formVisible = false;
   }
 
-  getAssignments(done: boolean) {
-    this.assignmentService.getAssignments(this.page, this.limit, done)
+  getAssignments(done: boolean, ue: string) {
+    this.assignmentService.getAssignments(this.page, this.limit, done, ue)
       .subscribe(data => {
         done ? this.assignmentsDone = data.docs : this.assignmentsNotDone = data.docs;
         this.page = data.page;
@@ -72,9 +73,13 @@ export class AssignmentsComponent implements OnInit {
       assignment.rendu ? assignment.rendu = false : assignment.rendu = true;
       this.assignmentService.updateAssignment(assignment)
         .subscribe(() => {
-          this.getAssignments(true);
-          this.getAssignments(false);
+          this.getAssignments(true, this.assignmentSelected);
+          this.getAssignments(false, this.assignmentSelected);
         });
     }
+  }
+
+  editAssignment(assignment: any) {
+
   }
 }

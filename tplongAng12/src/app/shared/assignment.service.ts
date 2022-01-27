@@ -18,8 +18,8 @@ export class AssignmentService {
               private httpClient: HttpClient,
               private utils: Utils) { }
 
-  getAssignments(page: number, limit: number, done: boolean): Observable<any> {
-    return this.httpClient.get<any>(this.url, {params : this.utils.getHttpParams(page, limit, done)})
+  getAssignments(page: number, limit: number, done: boolean, ue: string): Observable<any> {
+    return this.httpClient.get<any>(this.url, {params : this.utils.getHttpParams(page, limit, done, ue)})
       .pipe(
         map(assignments => {
           return assignments;
@@ -75,7 +75,7 @@ export class AssignmentService {
       addAssign.id = result.id;
       addAssign.nom = result.nom;
       addAssign.rendu = result.rendu;
-      addAssign.dateDeRendu = new Date(result.dateDeRendu);
+      addAssign.dateDeRendu = result.dateDeRendu;
       this.addAssignment(addAssign);
     });
   }
