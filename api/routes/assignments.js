@@ -3,8 +3,11 @@ let Assignment = require('../model/assignment');
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res) {
     let aggregateQuery = Assignment.aggregate();
-    let done = req.query.rendu === 'false' ? false : true;
-    Assignment.aggregatePaginate(aggregateQuery.match({ rendu: done }),
+    let done = req.query.rendu === 'false' ? false : req.query.rendu === 'true' ? true : undefined;
+    let matching = done !== undefined ?
+        (req.query.ue ? aggregateQuery.match({ rendu: done, ue: req.query.ue }) : aggregateQuery.match({ rendu: done }))
+        : req.query.ue ? aggregateQuery.match({ ue: req.query.ue }) : aggregateQuery;
+    Assignment.aggregatePaginate(matching,
         {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
