@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AssignmentService } from "../shared/assignment.service";
-import { AssignmentModel } from "../models/assignment.model";
-import { PageEvent } from "@angular/material/paginator";
+import {Component, OnInit} from '@angular/core';
+import {AssignmentService} from "../shared/assignment.service";
+import {AssignmentModel} from "../models/assignment.model";
 
 @Component({
   selector: 'app-assignments',
@@ -11,13 +10,15 @@ import { PageEvent } from "@angular/material/paginator";
 export class AssignmentsComponent implements OnInit {
 
   ajoutActive: boolean = false;
-  title: string = 'C\'est un super titre pour ce component !';
   formVisible: boolean = false;
   dateDeRendu!: Date;
-  assignments!: AssignmentModel[];
+  assignmentsDone?: any;
+  assignmentsNotDone?: any;
   assignementSelected!: AssignmentModel;
-
+  assignmentsSelect: string[] = 'Web - BackEnd - Base de donées - Gestion de projet / SCRUM - Charlatanisme - Manipulation'.split(' - ');
+  selectedAssignment: string = 'Web';
   // Pagination management
+  assignment: any;
   page: number = 1;
   limit: number = 10;
   totalDocs?: number;
@@ -26,12 +27,13 @@ export class AssignmentsComponent implements OnInit {
   prevPage?: number;
   hasNextPage?: boolean;
   nextPage?: number;
-  currentIndex?: number;
 
-  constructor(private assignmentService: AssignmentService) { }
+  constructor(private assignmentService: AssignmentService) {
+  }
 
   ngOnInit(): void {
-    this.getAssignments();
+    this.getAssignments(true);
+    this.getAssignments(false);
     setTimeout(() => {
       this.ajoutActive = true;
     }, 2000);
@@ -49,10 +51,10 @@ export class AssignmentsComponent implements OnInit {
     this.formVisible = false;
   }
 
-  getAssignments() {
-    this.assignmentService.getAssignments(this.page, this.limit)
+  getAssignments(done: boolean) {
+    this.assignmentService.getAssignments(this.page, this.limit, done)
       .subscribe(data => {
-        this.assignments = data.docs;
+        done ? this.assignmentsDone = data.docs : this.assignmentsNotDone = data.docs;
         this.page = data.page;
         this.limit = data.limit;
         this.totalDocs = data.totalDocs;
@@ -64,23 +66,15 @@ export class AssignmentsComponent implements OnInit {
       });
   }
 
-  onChangePage(pe: PageEvent) {
-    this.currentIndex = (pe.pageIndex + 1) == this.page ? this.page : (pe.pageIndex + 1) == this.nextPage! ? this.nextPage! : this.prevPage!;
-      this.assignmentService.getAssignments(this.currentIndex, pe.pageSize).subscribe(
-        data => {
-          this.assignments = data.docs;
-          this.totalPages = data.totalPages;
-          this.hasPrevPage = data.hasPrevPage;
-          this.prevPage = data.prevPage;
-          this.hasNextPage = data.hasNextPage;
-          this.nextPage = data.nextPage;
-        }
-      );
+  onDrop($event: any) {
+    let assignment: AssignmentModel = $event.previousContainer.data[$event.previousIndex];
+    if($event.isPointerOverContainer) {
+      assignment.rendu ? assignment.rendu = false : assignment.rendu = true;
+      this.assignmentService.updateAssignment(assignment)
+        .subscribe(() => {
+          this.getAssignments(true);
+          this.getAssignments(false);
+        });
+    }
   }
-  /*onNouvelAssignement(event: AssignementsModel) {
-    this.assignmentService.addAssignment(event)
-      .subscribe(message => console.log(message));
-    this.formVisible = false;
-  }*/
-
 }

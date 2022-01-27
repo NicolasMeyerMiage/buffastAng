@@ -3,7 +3,8 @@ let Assignment = require('../model/assignment');
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res) {
     let aggregateQuery = Assignment.aggregate();
-    Assignment.aggregatePaginate(aggregateQuery,
+    let done = req.query.rendu === 'false' ? false : true;
+    Assignment.aggregatePaginate(aggregateQuery.match({ rendu: done }),
         {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
@@ -16,7 +17,6 @@ function getAssignments(req, res) {
         }
     );
 }
-
 
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res){
@@ -59,7 +59,6 @@ function updateAssignment(req, res) {
           res.status(201).json({message: 'updated'})
         }
     });
-
 }
 
 // suppression d'un assignment (DELETE)
@@ -71,7 +70,5 @@ function deleteAssignment(req, res) {
         res.status(200).json({message: `${assignment.nom} deleted`});
     })
 }
-
-
 
 module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };

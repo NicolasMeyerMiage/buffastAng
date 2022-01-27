@@ -6,28 +6,76 @@
     </a>
   </div>
 
-  <mat-list *ngFor="let assignment of assignments">
-    <nav routerLink="/assignment/{{assignment.id}}">
-    <h3 mat-subheader>{{assignment.dateDeRendu | date:'dd/MM/yyyy'}}</h3>
-    <mat-list-item (click)="assignementClique(assignment)">
-      <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-        Devoir intitulé {{assignment.nom}} a été rendu.
-      </p>
-      <ng-template #nonsoumis>
-        Le devoir {{assignment.nom}} n'a pas été rendu.
-      </ng-template>
-      <mat-divider></mat-divider>
-    </mat-list-item>
-    </nav>
-  </mat-list>
+  <mat-select>
+    <mat-option *ngFor="let assignment of assignmentsSelect" [value]="assignment">
+      {{assignment}}
+    </mat-option>
+  </mat-select>
 
-  <mat-paginator [length]="totalDocs"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]"
-                 (page)="onChangePage($event)"
-                 aria-label="Select page">
-  </mat-paginator>
-  <!--<app-assignment-detail [assignmentTransmis]="assignementSelected"></app-assignment-detail>-->
+  <div class="container">
+    <div class="not-done-container column-container">
+      <div class="list"
+           cdkDropList
+           #notDoneList="cdkDropList"
+           [cdkDropListData]="assignmentsNotDone"
+           [cdkDropListConnectedTo]="[doneList]"
+           (cdkDropListDropped)="onDrop($event)">
+        <h2>Devoirs non rendus</h2>
+        <mat-card *ngFor="let assignment of assignmentsNotDone" cdkDrag>
+          <!--<nav routerLink="/assignment/{{assignment.id}}">-->
+          <mat-card-title-group>
+            <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+            <mat-card-subtitle>imgTest</mat-card-subtitle>
+            <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
+          </mat-card-title-group>
+          <mat-card-content>
+            <mat-list-item (click)="assignementClique(assignment)">
+              <p appRendu *ngIf="assignment.rendu; else nonsoumis">
+                Devoir intitulé {{assignment.nom}} a été rendu.
+              </p>
+              <ng-template #nonsoumis>
+                Le devoir {{assignment.nom}} n'a pas été rendu.
+              </ng-template>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-card-content>
+          <!--</nav>-->
+        </mat-card>
+      </div>
+    </div>
+    <div class="done-container column-container">
+      <div class="list"
+           cdkDropList
+           #doneList="cdkDropList"
+           [cdkDropListData]="assignmentsDone"
+           [cdkDropListConnectedTo]="[notDoneList]"
+           (cdkDropListDropped)="onDrop($event)">
+        <h2>Devoirs rendus</h2>
+        <mat-card *ngFor="let assignment of assignmentsDone" cdkDrag>
+          <!--<nav routerLink="/assignment/{{assignment.id}}">-->
+          <mat-card-title-group>
+            <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+            <mat-card-subtitle>imgTest</mat-card-subtitle>
+            <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
+          </mat-card-title-group>
+          <mat-card-content>
+            <mat-list-item (click)="assignementClique(assignment)">
+              <p appRendu *ngIf="assignment.rendu; else nonsoumis">
+                Devoir intitulé {{assignment.nom}} a été rendu.
+              </p>
+              <ng-template #nonsoumis>
+                Le devoir {{assignment.nom}} n'a pas été rendu.
+              </ng-template>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-card-content>
+          <!--</nav>-->
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+    <!--<app-assignment-detail [assignmentTransmis]="assignementSelected"></app-assignment-detail>-->
 </main>
 
 <router-outlet></router-outlet>

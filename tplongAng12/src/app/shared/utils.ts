@@ -18,10 +18,11 @@ export class Utils {
     }
   }
 
-  getHttpParams(page: number, limit: number): HttpParams {
+  getHttpParams(page: number, limit: number, rendu: boolean): HttpParams {
     let params = new HttpParams();
     params = params.append('page', page);
     params = params.append('limit', limit);
+    params = params.append('rendu', rendu);
     return params;
   }
 }

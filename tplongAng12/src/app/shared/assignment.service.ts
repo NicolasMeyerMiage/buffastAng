@@ -18,8 +18,8 @@ export class AssignmentService {
               private httpClient: HttpClient,
               private utils: Utils) { }
 
-  getAssignments(page: number, limit: number): Observable<any> {
-    return this.httpClient.get<any>(this.url, {params : this.utils.getHttpParams(page, limit)})
+  getAssignments(page: number, limit: number, done: boolean): Observable<any> {
+    return this.httpClient.get<any>(this.url, {params : this.utils.getHttpParams(page, limit, done)})
       .pipe(
         map(assignments => {
           return assignments;
@@ -59,7 +59,7 @@ export class AssignmentService {
   }
 
   updateAssignment(assignment: AssignmentModel): Observable<AssignmentModel> {
-    return this.httpClient.put<AssignmentModel>(this.url, assignment, this.utils.HttpOptions)
+    return this.httpClient.put<AssignmentModel>(this.url, assignment)
       .pipe(
         map(assignment => {
           return assignment;
