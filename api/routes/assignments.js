@@ -1,5 +1,6 @@
 let Assignment = require('../model/assignment');
-const Teacher = require("../model/teacher");
+const Teacher = require('../model/teacher');
+const Student = require('../model/student');
 
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res) {
@@ -13,15 +14,25 @@ function getAssignments(req, res) {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
         },
-        (err, assignments) => {
+        async (err, assignments) => {
             if (err) {
                 res.send(err);
             }
-            /*assignments.docs.forEach(assignment => {
-                Teacher.findOne({ue: assignment.ue}, (err, teacher) => {
-                    assignment.pic = teacher.pic
+            let results = [];
+            for (const assignment of assignments.docs) {
+                let result = [];
+                await Assignment.findOne({id: assignment.id}, (err, assignment) => {
+                    result.push(assignment);
                 });
-            });*/
+                await Teacher.findOne({ue: assignment.ue}, (err, teacher) => {
+                    result.push(teacher);
+                });
+                await Student.findOne({id: assignment.etudiant}, (err, student) => {
+                    result.push(student);
+                });
+                results.push(result);
+            }
+            assignments.docs = results;
             res.send(assignments);
         }
     );
