@@ -3,7 +3,6 @@ let aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 let Schema = mongoose.Schema;
 
 let ClassSchema = Schema({
-    id: Number,
     nom: String,
     years: Number,
     option: String

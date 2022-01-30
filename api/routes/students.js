@@ -21,23 +21,23 @@ function getStudentById(req, res){
     Student.findOne({id: studentId}, (err, student) =>{
         if(err){res.status(500).send(err)}
         res.status(200).json(student);
-    })
+    });
 }
 
 // Récupérer des personnes selon un paramètre (GET)
 function getStudentWithParam(req, res){
-    let studentId = req.params.id;
-    let studentClasse = req.params.classe;
+    let studentId = req.query.id;
+    let studentClasse = req.query.classe;
     if(studentId) {
         Student.find({id: studentId}, (err, student) =>{
             if(err){res.status(500).send(err)}
-            res.status(200).json(user);
-        })
+            res.status(200).json(student);
+        });
     } else if(studentClasse) {
         Student.find({classe: studentClasse}, (err, studentClasse) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(studentClasse);
-        })
+        });
     }
 }
 

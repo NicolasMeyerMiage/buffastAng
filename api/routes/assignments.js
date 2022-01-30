@@ -19,19 +19,19 @@ function getAssignments(req, res) {
                 res.send(err);
             }
             let results = [];
-            for (const assignment of assignments.docs) {
-                let result = [];
-                await Assignment.findOne({id: assignment.id}, (err, assignment) => {
-                    result.push(assignment);
-                });
-                await Teacher.findOne({ue: assignment.ue}, (err, teacher) => {
-                    result.push(teacher);
-                });
-                await Student.findOne({id: assignment.etudiant}, (err, student) => {
-                    result.push(student);
-                });
-                results.push(result);
-            }
+                for (const assignment of assignments.docs) {
+                    let result = [];
+                    await Assignment.findOne({id: assignment.id}, (err, assignment) => {
+                        result.push(assignment);
+                    });
+                    await Teacher.findOne({ue: assignment.ue}, (err, teacher) => {
+                        result.push(teacher);
+                    });
+                    await Student.findOne({id: assignment.etudiant}, (err, student) => {
+                        result.push(student);
+                    });
+                    results.push(result);
+                }
             assignments.docs = results;
             res.send(assignments);
         }
@@ -47,6 +47,15 @@ function getAssignment(req, res) {
             res.status(500).send(err)
         }
         res.status(200).json(assignment);
+    })
+}
+
+function getLastAssignment(req, res) {
+    Assignment.findOne().sort({ _id: -1 }).exec(function(err, assignment) {
+        if(err) {
+            res.status(500).send(err);
+        }
+        res.status(200).json(assignment.id);
     })
 }
 
@@ -93,4 +102,4 @@ function deleteAssignment(req, res) {
     })
 }
 
-module.exports = {getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment};
+module.exports = {getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment, getLastAssignment};

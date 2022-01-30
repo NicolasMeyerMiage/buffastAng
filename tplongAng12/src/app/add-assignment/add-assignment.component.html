@@ -5,27 +5,53 @@
   </a>
 </div>
 
-<form class="form" ngForm #assignmentForm>
-  <mat-form-field>
-    <input matInput
-           [(ngModel)]="nomDevoir"
-           placeholder="Nom du devoir"
-           name="nom">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput
-           [matDatepicker]="picker"
-           [(ngModel)]="dateDeRendu"
-           placeholder="Date de rendu"
-           name="dateDeRendu">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <button
-    mat-stroked-button
-    color="primary"
-    (click)="onSubmit(); assignmentForm.reset()">
-    Ajouter un devoir
-  </button>
-</form>
+<mat-stepper orientation="vertical" #stepper>
+  <mat-step [stepControl]="assignmentGroupForm">
+    <form [formGroup]="assignmentGroupForm">
+      <ng-template matStepLabel>Information Devoir</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="nomAssignment" required>
+      </mat-form-field>
+      <br/>
+      <mat-form-field appearance="fill">
+        <mat-label>UE</mat-label>
+        <mat-select formControlName="ue">
+          <mat-option *ngFor="let ue of assignmentsSelect" [value]="ue" (onSelectionChange)="setUeSelected(ue)">{{ue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="studentGroupForm">
+    <form [formGroup]="studentGroupForm">
+      <ng-template matStepLabel>Information Eléve</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Classe</mat-label>
+        <mat-select formControlName="classe">
+          <mat-option *ngFor="let classe of classes" [value]="classe" (onSelectionChange)="getStudentsFromClasse(classe)">{{classe}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br/>
+      <mat-form-field appearance="fill" *ngIf="students">
+        <mat-label>Etudiants</mat-label>
+        <mat-select formControlName="student">
+          <mat-option *ngFor="let student of students" [value]="student" (click)="setStudentId(student)">{{student.nom + '' + student.prenom}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="onSubmit()">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>C'est fait !</ng-template>
+    <p>Le devoir a été enregistré.</p>
+    <div>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>

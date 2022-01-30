@@ -6,7 +6,7 @@ let user = require('./routes/users');
 let auth = require('./routes/auth');
 let student = require('./routes/students');
 let teacher = require('./routes/teachers');
-let classe = require('./routes/class');
+let classes = require('./routes/classes');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -70,6 +70,7 @@ app.route(prefix + '/assignments/:id')
 app.route(prefix + '/assignments')
   .post(assignment.postAssignment)
   .put(assignment.updateAssignment);
+app.route(prefix + '/assignments/id/last').get(assignment.getLastAssignment);
 
 /*
  * ENDPOINTS - User
@@ -97,9 +98,9 @@ app.route(prefix + '/login').post(auth.login);
  * Methods : GET
  * Requierment : ClasseSchema
  */
-app.route(prefix + '/classes').get(classe.getClasses);
-app.route(prefix + '/classe/:id').get(classe.getClasseById);
-app.route(prefix + '/classe').get(classe.getClasseWithParam);
+app.route(prefix + '/classes').get(classes.getClasses);
+app.route(prefix + '/classes/:id').get(classes.getClasseById);
+app.route(prefix + '/classes/id/params').get(classes.getClasseWithParam);
 
 /*
  * ENDPOINTS - Student
@@ -107,8 +108,8 @@ app.route(prefix + '/classe').get(classe.getClasseWithParam);
  * Requierment : StudentSchema
  */
 app.route(prefix + '/students').get(student.getStudents);
-app.route(prefix + '/student/:id').get(student.getStudentById);
-app.route(prefix + '/student').get(student.getStudentWithParam);
+app.route(prefix + '/students/:id').get(student.getStudentById);
+app.route(prefix + '/students/id/params').get(student.getStudentWithParam);
 
 /*
  * ENDPOINTS - Teacher

@@ -5,7 +5,7 @@
       <button class="ajouterBtn" mat-flat-button color="accent">Ajouter Assignment</button>
     </a>
   </div>
-
+  <br/>
   <mat-form-field appearance="fill">
     <mat-label>UE</mat-label>
     <mat-select>
@@ -24,25 +24,45 @@
              (cdkDropListDropped)="onDrop($event)">
           <h2>Devoirs non rendus</h2>
           <mat-card *ngFor="let assignment of assignmentsNotDone" cdkDrag>
-            <!--<nav routerLink="/assignment/{{assignment.id}}">-->
             <mat-card-title-group>
-              <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
-              <mat-card-subtitle>{{assignment.ue}}</mat-card-subtitle>
+              <mat-card-title (click)="onEditVisible(assignment)">{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+              <mat-card-subtitle>
+                {{assignment.ue}}<br/>
+                Devoir de {{assignment.student.prenom}} {{assignment.student.nom}}<br/>
+                {{assignment.student.classe}}
+              </mat-card-subtitle>
               <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
             </mat-card-title-group>
             <mat-card-content>
-              <mat-list-item (click)="editAssignment(assignment)">
-                <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-                  Devoir intitulé {{assignment.nom}} a été rendu.
-                </p>
-                <ng-template #nonsoumis>
-                  Le devoir {{assignment.nom}} n'a pas été rendu.
-                </ng-template>
+              <mat-list-item *ngIf="assignment.visible">
+                <div *ngIf="!assignment.note || assignment.note.toString() == 'NaN'">
+                  <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Note</mat-label>
+                    <input matInput [formControl]="assignNote"/>
+                  </mat-form-field><br/>
+                  <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Remarque</mat-label>
+                    <textarea matInput [formControl]="assignRemarque"></textarea>
+                  </mat-form-field><br/><br/>
+                  <button mat-raised-button color="primary" (click)="editAssignment(assignment)">Noter !</button>
+                </div>
+                <div *ngIf="assignment.note && assignment.note.toString() != 'NaN'">
+                  <label>Note : <strong>{{assignment.note}} / 20</strong></label><br/>
+                  <label>Remarque : {{assignment.remarque}}</label><br/><br/>
+                  <button mat-raised-button color="warn" (click)="deleteNote(assignment)">Réinitialiser la note</button>
+                </div>
                 <mat-divider></mat-divider>
               </mat-list-item>
             </mat-card-content>
-            <!--</nav>-->
           </mat-card>
+          <div>
+            <button class="pagination-button" mat-icon-button color="primary" [disabled]="page == 1 || page == null" (click)="backPage(false)">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <button class="pagination-button" mat-icon-button color="primary" [disabled]="totalPages != null && page == totalPages" (click)="jumpPage(false)">
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
       <div class="done-container column-container">
@@ -53,34 +73,26 @@
              [cdkDropListConnectedTo]="[notDoneList]"
              (cdkDropListDropped)="onDrop($event)">
           <h2>Devoirs rendus</h2>
-          <mat-card *ngFor="let assignment of assignmentsDone" cdkDrag>
-            <!--<nav routerLink="/assignment/{{assignment.id}}">-->
+          <mat-card *ngFor="let assignment of assignmentsDone" (click)="onEditVisible(assignment)" cdkDrag>
             <mat-card-title-group>
               <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
-              <mat-card-subtitle>{{assignment.ue}}</mat-card-subtitle>
-              <!--<img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >-->
+              <mat-card-subtitle>
+                {{assignment.ue}}<br/>
+                Devoir de {{assignment.student.prenom}} {{assignment.student.nom}}<br/>
+                {{assignment.student.classe}}
+              </mat-card-subtitle>
             </mat-card-title-group>
             <mat-card-content>
-              <mat-list-item (click)="assignementClique(assignment)">
-                <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-                  Devoir intitulé {{assignment.nom}} a été rendu.
-                </p>
-                <ng-template #nonsoumis>
-                  Le devoir {{assignment.nom}} n'a pas été rendu.
-                </ng-template>
+              <mat-list-item *ngIf="assignment.visible">
+                  <label>Note : <strong>{{assignment.note}} / 20</strong></label><br/>
+                  <label>Remarque : {{assignment.remarque}}</label>
                 <mat-divider></mat-divider>
               </mat-list-item>
             </mat-card-content>
-            <!--</nav>-->
           </mat-card>
         </div>
       </div>
     </div>
   </div>
-
-    <!--<app-assignment-detail [assignmentTransmis]="assignementSelected"></app-assignment-detail>-->
 </main>
-
 <router-outlet></router-outlet>
-
-<!--<app-add-assignment (nouvelAssignemnt)="onNouvelAssignement($event)" (formVisible)="onListVisible()" *ngIf="formVisible"></app-add-assignment>-->

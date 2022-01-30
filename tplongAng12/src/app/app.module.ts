@@ -36,6 +36,7 @@ import {RenduDirective} from "./shared/rendu.directive";
 import {Utils} from "./shared/utils";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatSelectModule} from "@angular/material/select";
+import {MatStepperModule} from "@angular/material/stepper";
 
 const routes: Routes = [
   {path: '', component: AssignmentsComponent},
@@ -52,15 +53,15 @@ const routes: Routes = [
     AssignmentDetailComponent, AddAssignmentComponent,
     EditAssignmentComponent, AssignmentLoginComponent
   ],
-  imports: [
-    BrowserModule, AppRoutingModule, BrowserAnimationsModule,
-    FormsModule, HttpClientModule, ReactiveFormsModule,
-    MatButtonModule, MatDividerModule, MatIconModule,
-    MatFormFieldModule, MatInputModule, MatDatepickerModule,
-    MatNativeDateModule, MatListModule, MatCardModule,
-    MatCheckboxModule, MatSlideToggleModule, MatPaginatorModule,
-    RouterModule.forRoot(routes), DragDropModule, MatOptionModule, MatSelectModule
-  ],
+    imports: [
+        BrowserModule, AppRoutingModule, BrowserAnimationsModule,
+        FormsModule, HttpClientModule, ReactiveFormsModule,
+        MatButtonModule, MatDividerModule, MatIconModule,
+        MatFormFieldModule, MatInputModule, MatDatepickerModule,
+        MatNativeDateModule, MatListModule, MatCardModule,
+        MatCheckboxModule, MatSlideToggleModule, MatPaginatorModule,
+        RouterModule.forRoot(routes), DragDropModule, MatOptionModule, MatSelectModule, MatStepperModule
+    ],
   providers: [
     AssignmentService, LoginService, AuthService,
     UserService, Utils

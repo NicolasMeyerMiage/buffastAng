@@ -1,3 +1,6 @@
+import {TeacherModel} from './teacher.model';
+import {StudentModel} from './student.model';
+
 export class AssignmentModel {
   _id?: string;
   id!: number;
@@ -7,6 +10,9 @@ export class AssignmentModel {
   dateDeRendu?: string;
   rendu?: boolean;
   note?: number;
+  visible: boolean = false;
   remarque?: string;
-  etudiant!: string;
+  etudiant!: number;
+  student!: StudentModel;
+  teacher!: TeacherModel;
 }

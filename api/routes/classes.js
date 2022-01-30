@@ -1,9 +1,9 @@
-let Class = require('../model/class');
+let Classe = require('../model/classe');
 
 // Récupérer toutes les personnes (GET)
 function getClasses(req, res) {
-    let aggregateQuery = Class.aggregate();
-    Class.aggregatePaginate(aggregateQuery,
+    let aggregateQuery = Classe.aggregate();
+    Classe.aggregatePaginate(aggregateQuery,
         {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
@@ -18,7 +18,7 @@ function getClasses(req, res) {
 // Récupérer une personne par son id (GET)
 function getClasseById(req, res){
     let classeId = req.params.id;
-    Class.findOne({id: classeId}, (err, classe) =>{
+    Classe.findOne({id: classeId}, (err, classe) =>{
         if(err){res.status(500).send(err)}
         res.status(200).json(classe);
     })
@@ -30,17 +30,17 @@ function getClasseWithParam(req, res){
     let classNom = req.params.nom;
     let classYears = req.params.years;
     if(classId) {
-        Class.find({id: classId}, (err, classe) =>{
+        Classe.find({id: classId}, (err, classe) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(classe);
         })
     } else if(classNom) {
-        Class.find({nom: classNom}, (err, classe) =>{
+        Classe.find({nom: classNom}, (err, classe) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(classe);
         })
     } else if(classYears) {
-        Class.find({years: classYears}, (err, classe) =>{
+        Classe.find({years: classYears}, (err, classe) =>{
             if(err){res.status(500).send(err)}
             res.status(200).json(classe);
         })

@@ -38,6 +38,16 @@ export class AssignmentService {
       );
   }
 
+  getLastAssignment(): Observable<number> {
+    return this.httpClient.get<number>(this.url + "/id/last")
+      .pipe(
+        map(assignment => {
+          return assignment;
+        }),
+        catchError(this.utils.handleError<number>(`getLastAssignment()`))
+      );
+  }
+
   addAssignment(assignment: AssignmentModel): Observable<AssignmentModel> {
     return this.httpClient.post<AssignmentModel>(this.url, assignment, this.utils.HttpOptions)
       .pipe(

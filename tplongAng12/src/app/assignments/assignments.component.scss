@@ -15,7 +15,6 @@ h2 {
   flex-direction: row;
   justify-content: space-around;
   margin-top: 2em;
-
 }
 
 .column-container {
@@ -26,7 +25,6 @@ h2 {
   vertical-align: top;
   background-color: RGBA(255, 255, 255, 0.05);
 }
-
 
 mat-card {
   margin: 1em;
@@ -80,4 +78,13 @@ mat-card {
 a {
   text-decoration: none;
   color: dodgerblue;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.pagination-button {
+  width: 60px;
+  height: 60px;
 }
