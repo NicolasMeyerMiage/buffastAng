@@ -11,7 +11,7 @@
       <ng-template matStepLabel>Information Devoir</ng-template>
       <mat-form-field appearance="fill">
         <mat-label>Nom</mat-label>
-        <input matInput formControlName="nomAssignment" required>
+        <input matInput formControlName="nomAssignment">
       </mat-form-field>
       <br/>
       <mat-form-field appearance="fill">
@@ -35,10 +35,10 @@
         </mat-select>
       </mat-form-field>
       <br/>
-      <mat-form-field appearance="fill" *ngIf="students">
+      <mat-form-field appearance="fill" *ngIf="studentsGet">
         <mat-label>Etudiants</mat-label>
         <mat-select formControlName="student">
-          <mat-option *ngFor="let student of students" [value]="student" (click)="setStudentId(student)">{{student.nom + '' + student.prenom}}</mat-option>
+          <mat-option *ngFor="let student of students" [value]="student" (click)="setStudentId(student)">{{student.nom + ' ' + student.prenom}}</mat-option>
         </mat-select>
       </mat-form-field>
       <div>
@@ -51,7 +51,7 @@
     <ng-template matStepLabel>C'est fait !</ng-template>
     <p>Le devoir a été enregistré.</p>
     <div>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button (click)="stepper.reset(); reset()">Reset</button>
     </div>
   </mat-step>
 </mat-stepper>

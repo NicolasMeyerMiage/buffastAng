@@ -3,5 +3,6 @@ export class TeacherModel {
   id!: number;
   nom!: string;
   ue!: string;
-  pic!: string;
+  picTeach!: string;
+  picUe!: string;
 }

@@ -25,7 +25,7 @@
           <h2>Devoirs non rendus</h2>
           <mat-card *ngFor="let assignment of assignmentsNotDone" cdkDrag>
             <mat-card-title-group>
-              <mat-card-title (click)="onEditVisible(assignment)">{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+              <mat-card-title (click)="onEditVisible(assignment)"><img mat-card-sm-image class="picTeach" src="{{assignment.teacher.picTeach}}"> - {{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
               <mat-card-subtitle>
                 {{assignment.ue}}<br/>
                 Devoir de {{assignment.student.prenom}} {{assignment.student.nom}}<br/>
@@ -75,7 +75,7 @@
           <h2>Devoirs rendus</h2>
           <mat-card *ngFor="let assignment of assignmentsDone" (click)="onEditVisible(assignment)" cdkDrag>
             <mat-card-title-group>
-              <mat-card-title>{{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
+              <mat-card-title><img mat-card-sm-image class="picTeach" src="{{assignment.teacher.picTeach}}"> - {{assignment.dateDeRendu}} - {{assignment.nom}}</mat-card-title>
               <mat-card-subtitle>
                 {{assignment.ue}}<br/>
                 Devoir de {{assignment.student.prenom}} {{assignment.student.nom}}<br/>
